@@ -18,12 +18,14 @@ def load_url_selenium_tiki(url):
     driver = webdriver.Chrome(options=options)
     print("Loading url=", url)
     driver.get(url)
-    driver.execute_script("window.scrollTo(0,3000)")
+    driver.execute_script("window.scrollTo(0,1500)")
+    driver.execute_script("window.scrollTo(0,2500)")
+    driver.execute_script("window.scrollTo(0,3500)")
     time.sleep(1)
     list_review = []
     # just craw 10 page
     x = 0
-    while x < 1:
+    while x < 20:
         product_reviews = driver.find_elements(By.CLASS_NAME, "review-comment__content")
         # Get product review
         for product in product_reviews:

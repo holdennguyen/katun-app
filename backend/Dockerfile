@@ -18,10 +18,21 @@ RUN bash -c "if [ $INSTALL_DEV == 'true' ] ; then poetry install --no-root ; els
 COPY . /app
 
 RUN pip install -r requirements.txt
-RUN chmod +x chromedriver
-RUN mv chromedriver /usr/bin/chromedriver
-RUN apt-get update && apt-get install -y
-RUN apt-get install libnss3 -
+RUN apt-get update
+RUN apt-get install -y curl unzip xvfb libxi6 libgconf-2-4
+
+# Installing Chrome
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN apt install ./google-chrome-stable_current_amd64.deb -y
+RUN google-chrome --version
+
+# Installing Chrome Driver
+RUN wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/116.0.5845.96/linux64/chromedriver-linux64.zip
+RUN unzip chromedriver-linux64.zip
+RUN mv chromedriver-linux64/chromedriver /usr/bin/chromedriver
+RUN chown root:root /usr/bin/chromedriver
+RUN chmod +x /usr/bin/chromedriver
+RUN chromedriver --version
 
 ENV PYTHONPATH=/app
 
